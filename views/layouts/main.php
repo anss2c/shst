@@ -11,6 +11,9 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+dmstr\web\AdminLteAsset::register($this);
+
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -19,7 +22,8 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
+        <?php $this->registerCsrfMetaTags() ?>
+     
     <title><?= Html::encode("Smart Healthy and Safe Tourism") ?></title>
     <?php $this->head() ?>
 </head>
@@ -29,18 +33,19 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => "Smart Healthy and Safe Tourism",
+        'brandLabel' => Html::img('@web/logo1.png',['width' => '200px','height' => '35px']),
         'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
+        'options' => [ 
             'class' => 'navbar-inverse navbar-fixed-top',
+            'style' => 'background-color : #3e4551; background-border : #3e4551'
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'navbar-nav1 navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Home', 'url' => ['/site/index'], 'style' => 'color:red'],
             ['label' => 'Maps', 'url' => ['/site/map']],
-            ['label' => 'Telemedicine', 'url' => ['/site/telemedicine']],
+            ['label' => 'Medical Chatbot', 'url' => ['/site/telemedicine']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -57,7 +62,11 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+    <?php 
+        echo \TomLutzenberger\Smartsupp\SmartsuppChat::widget([
+        'key' => 'f6875dd8588c4078858578c77917b452ab6911ab']);
 
+    ?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -67,11 +76,11 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
+<footer class="footer" style="background-color : #86b8a5">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; PLTI <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"></p>
     </div>
 </footer>
 
