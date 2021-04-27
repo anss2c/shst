@@ -68,6 +68,7 @@ $this->title = 'My Yii Application';
                     $coord = new LatLng(['lat' => $detailkab['lat'], 'lng' => $detailkab['lng']]);
                     $map = new Map([
                                 'center' => $coord,
+                                //'position'=>'Nganjuk',
                                 'zoom' => 15,
                                 'width' => 770,
                             ]);
@@ -77,6 +78,7 @@ $this->title = 'My Yii Application';
                             $marker = new Marker([
                                 'position' => $markercoord,
                                 'title' => $raw['name'],
+                                'icon' => "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
                             
                             ]);
 

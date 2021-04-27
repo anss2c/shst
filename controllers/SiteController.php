@@ -300,8 +300,9 @@ class SiteController extends Controller
                     "time"  =>$date,
                     "avatar" =>""));
             $client = new Client(['baseUrl' => 'http://healthysafetourismdev.herokuapp.com/']);
+            $pesanMasukconv = urlencode($pesanMasuk);
             $response = $client->createRequest()
-               ->setUrl('/medicalchatbot/'.$pesanMasuk)
+               ->setUrl('/medicalchatbot/"'.$pesanMasukconv.'"')
                ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
                ->send();
             $databalasan = Json::decode($response->content, true);  
