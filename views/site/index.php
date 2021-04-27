@@ -68,35 +68,42 @@ $this->title = 'My Yii Application';
                     $coord = new LatLng(['lat' => $detailkab['lat'], 'lng' => $detailkab['lng']]);
                     $map = new Map([
                                 'center' => $coord,
-                                //'position'=>'Nganjuk',
-                                'zoom' => 15,
-                                'width' => 770,
+                                'zoom' => 10,
+                                'width' => '100%',
                             ]);
                     foreach($detailgplace as $raw){
+                        $markercoord = new LatLng(['lat' => $raw['lat'], 'lng' => $raw['lng']]);
                         if($raw['sentimen']==1){
-                            $markercoord = new LatLng(['lat' => $raw['lat'], 'lng' => $raw['lng']]);
                             $marker = new Marker([
                                 'position' => $markercoord,
                                 'title' => $raw['name'],
-                                'icon' => "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
+                                'icon' => "http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png",
                             
                             ]);
-
+                        }  
+                        else{
+                            $marker = new Marker([
+                                'position' => $markercoord,
+                                'title' => $raw['name'],
+                                'icon' => "http://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png",
+                            
+                            ]);
+                        }
                             $marker->attachInfoWindow(
                                 new InfoWindow([
                                     'content' => '<p><b>'.$raw['name'].'</b><hr>Alamat :'.$raw['address'].'<br> Rating :'.$raw['rating'].'<br> Total user:'.$raw['user_ratings_total'].' </p>'
                                 ])
                             );
                             $map->addOverlay($marker);
-                        }
+                        
                     }
                     echo $map->display();
                }else{
                     $coord = new LatLng(['lat' => $lat, 'lng' =>  $lng]);
                     $map = new Map([
                                 'center' => $coord,
-                                'zoom' =>15,
-                                'width' => 770,
+                                'zoom' =>6,
+                                'width' =>'100%',
                             ]);
                      echo $map->display();
                 }
@@ -104,7 +111,7 @@ $this->title = 'My Yii Application';
                
                 ?>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" >
                       <div class="box box-warning">
                             <div class="box-header with-border">
                                   <h3 class="box-title">Tweet About This regency</h3>
@@ -112,19 +119,31 @@ $this->title = 'My Yii Application';
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                   </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body" style="height:200px; overflow-y: scroll">
                                 <?php
-                                /*
+                                
                                     $tweet=$session['detailtweet'];
                                     if(isset($session['detailkab']) && isset($session['detailtweet'])){
                                         foreach($tweet as $raw){
-                                            
+                                            if($raw['possitive_neutral_negative']==0){
+                                                echo '<div class="comment-text">'.$raw['text'].'</div>';
+                                                echo '<hr>';
+                                            }
+                                            if($raw['possitive_neutral_negative']==1){
+                                                echo '<div class="small-box bg-aqua">'.$raw['text'].'</div>';
+                                                echo '<hr>';
+                                            }
+                                            if($raw['possitive_neutral_negative']==2){
+                                                echo '<div >'.$raw['text'].'</div>';
+                                                echo '<hr>';
+                                            }
                                         }
                                     }
-                                    print_r($tweet)
-                                    */
+                                    else{
+                                        echo '<div >Silahkan Pilih Wilayah terlebih dahulu</div>';
+                                    }
                                 ?>
-                                <p style="height:150px"></p>
+                              
                             </div>
                       </div>
             </div>
@@ -136,8 +155,27 @@ $this->title = 'My Yii Application';
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                   </div>
                             </div>
-                            <div class="box-body">
-                                <p style="height:150px"></p>
+                            <div class="box-body" style="height:200px; overflow-y: scroll">
+                                <?php
+                                    $periksa = $session['pesanSes'];
+                                    $i=0;
+                                if(isset($session['pesanSes'])){
+                                    foreach($periksa as $raw){
+                                        if($raw['sender']=='Patient'){
+                                            echo 'Waktu konsultasi :'.$raw['time'].'<br>';
+                                            echo 'Keluhan :'.str_replace('GEJALA','',$raw['message']).'<br>';
+                                        }
+                                        if($raw['sender']=='mesin' && $i>2){
+                                            echo 'Hasil :'.$raw['message'].'<br>';
+                                            echo '<hr>';
+                                        }
+                                        $i++;
+                                    }
+                                }
+                                else{
+                                        echo '<div >Silahkan Mencoba Halaman medical Chatbot</div>';
+                                    }
+                                ?>
                             </div>
                 </div>
             </div>    
@@ -153,18 +191,57 @@ $this->title = 'My Yii Application';
                                   </div>
                             </div>
                             <div class="box-body">
-                                <div class="col-lg-4">
-                                    <h2>Cuaca</h2>
-                                    <p style="height: 100px"></p>
+                                
+                                    <div class="col-lg-3 col-xs-6">
+                                          <!-- small box -->
+                                          <div class="small-box bg-aqua">
+                                            <div class="inner">
+                                              <h3>On Process</h3>
+
+                                              <p>Temperatur</p>
+                                            </div>
+                                            <div class="icon">
+                                              <i class="fa fa-sun-o"></i>
+                                            </div>
+                                            <a href="#" class="small-box-footer">
+                                              
+                                            </a>
+                                          </div>
+                                    </div>
+                                
+                                <div class="col-lg-3 col-xs-6">
+                                  <!-- small box -->
+                                  <div class="small-box bg-green">
+                                    <div class="inner">
+                                      <h3>On Process<sup style="font-size: 20px">%</sup></h3>
+
+                                      <p>Temperature</p>
+                                    </div>
+                                    <div class="icon">
+                                      <i class="ion ion-stats-bars"></i>
+                                    </div>
+                                    <a href="#" class="small-box-footer">
+                                      
+                                    </a>
+                                  </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <h2>Angin</h2>
-                                    <p style="height: 100px"></p>                 
-                                </div>
-                                <div class="col-lg-4">
-                                    <h2>Iklim</h2>
-                                    <p style="height: 100px"></p>                 
-                                </div>
+
+                                <div class="col-lg-3 col-xs-6">
+                                          <!-- small box -->
+                                          <div class="small-box bg-aqua">
+                                            <div class="inner">
+                                              <h3>On Process</h3>
+
+                                              <p>Temperatur</p>
+                                            </div>
+                                            <div class="icon">
+                                              <i class="fa fa-sun-o"></i>
+                                            </div>
+                                            <a href="#" class="small-box-footer">
+                                              
+                                            </a>
+                                          </div>
+                                    </div>
                             </div>
             </div>
         </div>

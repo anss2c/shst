@@ -31,6 +31,7 @@ class SiteController extends Controller
      * {@inheritdoc}
      */
     public $successUrl = '';
+
     public function behaviors()
     {
         return [
@@ -182,19 +183,19 @@ class SiteController extends Controller
            ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
            ->send();
         $gplace = Json::decode($responsePlace->content, true);
-        /*
+        
         $responsetweet = $client->createRequest()
            ->setMethod('GET')
            ->setUrl('/tweetall/'.$id)
            ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
            ->send();
         $tweet = Json::decode($responsetweet->content, true);
-        */
+        
 
         $session->open();
         $session->set('gplace', $gplace);
         $session->set('detailkab', $detailkab);
-        //$session->set('detailtweet', $tweet);
+        $session->set('detailtweet', $tweet);
         $session->close();
         return $this->render('index', ['dataprov'=>$dataprov, 'detailkab'=>$detailkab, 'gplace'=>$gplace], false, true);
           
@@ -300,7 +301,8 @@ class SiteController extends Controller
                     "time"  =>$date,
                     "avatar" =>""));
             $client = new Client(['baseUrl' => 'http://healthysafetourismdev.herokuapp.com/']);
-            $pesanMasukconv = urlencode($pesanMasuk);
+            $pesanMasukconv = preg_replace('/\s+/', '%20', $pesanMasuk);;
+            //print($pesanMasukconv);
             $response = $client->createRequest()
                ->setUrl('/medicalchatbot/"'.$pesanMasukconv.'"')
                ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
