@@ -62,11 +62,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed201
     ]);
     NavBar::end();
     ?>
-    <?php 
-        echo \TomLutzenberger\Smartsupp\SmartsuppChat::widget([
-        'key' => 'f6875dd8588c4078858578c77917b452ab6911ab']);
-
-    ?>
+    
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

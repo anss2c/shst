@@ -778,7 +778,8 @@ $this->registerCss("
                                            <?php 
                                                 $gempa=$session['gempa'];
                                                 //print_r($gempa );
-                                                if($gempa['gempabumi_terkini_wilayah']!=null){
+                                                if(isset($session['gempa'])){
+                                                //if($gempa['gempabumi_terkini_wilayah']!=null){
                                                     echo '<div class="callout callout-danger">
                                                             <h4>Warning!</h4>
                                                             <p>Jarak Gempa dari ibukota : '.$gempa['gempabumi_terkini_wilayah']['jarak_ibukota_dengan_pusat_gempa'].'km <br>
@@ -793,7 +794,7 @@ $this->registerCss("
                                                 else {
                                                     echo '<div class="callout callout-info">
                                                             <h4>Semoga Aman!</h4>
-                                                            <p> Akhir-akhir ini tidak terjadi gempa</p>                                                         </div>';
+                                                            <p> Silahkan Pilih Kabupaten terlebih dahulu</p></div>';
                                                 }
                                                 ?>
                                           </section>
