@@ -129,16 +129,31 @@ class SiteController extends Controller
     {
         ob_start();
         $session = Yii::$app->session;
-        $lat= -6.200000;
-        $long= 106.816666;
+        $lat= 0.459983;
+        $long= 115.572010;
         $client = new Client(['baseUrl' => 'http://healthysafetourismdev.herokuapp.com/']);
         $response = $client->createRequest()
            ->setUrl('province')
            ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
            ->send();
         $data = Json::decode($response->content, true);
+
+        $responsegempa = $client->createRequest()
+           ->setUrl('gempabumi')
+           ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
+           ->send();
+        $datagempa = Json::decode($responsegempa->content, true);
+
+         $responsegplace = $client->createRequest()
+           ->setUrl('gplace')
+           ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
+           ->send();
+        $datagplace = Json::decode($responsegplace->content, true);
+        //$rating=array_column($datagplace, 'rating');
+        $user_rating = array_column($datagplace, 'user_ratings_total');
+        $sort_gplace=array_multisort($user_rating, SORT_DESC, $datagplace);
        
-        return $this->render('index', ['dataprov' =>$data, 'lat'=>$lat, 'lng'=>$long]);
+        return $this->render('index', ['dataprov' =>$data, 'datagempa'=>$datagempa,'datagplace'=>$datagplace,'lat'=>$lat, 'lng'=>$long]);
     }
 
     public function actionGetkab($id){
@@ -190,14 +205,28 @@ class SiteController extends Controller
            ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
            ->send();
         $tweet = Json::decode($responsetweet->content, true);
+
+        $responseCuaca = $client->createRequest()
+           ->setUrl('/prakiraancuacakabkota/'.$id)
+           ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
+           ->send();
+        $cuaca = Json::decode($responseCuaca->content, true);
+
+        $responseGempa = $client->createRequest()
+           ->setUrl('/gempabumi/'.$id)
+           ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
+           ->send();
+        $gempa = Json::decode($responseGempa->content, true);
         
 
         $session->open();
         $session->set('gplace', $gplace);
         $session->set('detailkab', $detailkab);
         $session->set('detailtweet', $tweet);
+        $session->set('prakirancuaca', $cuaca);
+        $session->set('gempa', $gempa);
         $session->close();
-        return $this->render('index', ['dataprov'=>$dataprov, 'detailkab'=>$detailkab, 'gplace'=>$gplace], false, true);
+        return $this->render('map', ['dataprov'=>$dataprov, 'detailkab'=>$detailkab, 'gplace'=>$gplace], false, true);
           
     }
     public function actionSendChat() {
@@ -259,7 +288,17 @@ class SiteController extends Controller
     }
     public function actionMap()
     {
-        return $this->render('map');
+        $lat= 0.459983;
+        $long= 115.572010;
+        $client = new Client(['baseUrl' => 'http://healthysafetourismdev.herokuapp.com/']);
+        $response = $client->createRequest()
+           ->setUrl('province')
+           ->setHeaders(['content-type' => 'application/json', 'access_token' => 'ywoU6gU5zWA1IdUHurDXTGhJwHWAqm'])
+           ->send();
+        $data = Json::decode($response->content, true);
+
+        
+        return $this->render('map', ['dataprov' =>$data, 'lat'=>$lat, 'lng'=>$long]);
     }
     public function actionTelemedicine()
     {
