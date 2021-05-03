@@ -24,6 +24,20 @@ $this->title = 'Maps';
 $this->params['breadcrumbs'][] = $this->title;
  $session = Yii::$app->session;
 $cuaca=$session['prakirancuaca'];
+if(isset($session['prakirancuaca'])){
+    $suhu_sekarang=$cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius'];
+    $wilayah=$cuaca['prakiraan_cuaca_besok_wilayah']['wilayah'];
+    $pagi=$cuaca['prakiraan_cuaca_besok_wilayah']['pagi'];
+    $siang=$cuaca['prakiraan_cuaca_besok_wilayah']['siang'];
+    $malam=$cuaca['prakiraan_cuaca_besok_wilayah']['malam'];
+}
+else{
+    $suhu_sekarang='Not set';
+    $wilayah='Silahkan Pilih Kabupaten';
+    $pagi='Not set';
+    $siang='Not set';
+    $malam='Not set';
+}
 //print_r($cuaca);
 $this->registerCss("
    
@@ -140,19 +154,19 @@ $this->registerCss("
     }
 
     @keyframes degreesTextAnimation {
-        32% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."';}
-        33% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        62% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        63% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        99% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
+        32% {content: '". $suhu_sekarang."';}
+        33% {content: '". $suhu_sekarang."'; }
+        62% {content: '". $suhu_sekarang."'; }
+        63% {content: '". $suhu_sekarang."'; }
+        99% {content: '". $suhu_sekarang."'; }
     }
 
     @-webkit-keyframes degreesTextAnimation {
-        32% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."';}
-        33% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        62% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        63% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
-        99% {content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['suhu_derajat_celcius']."'; }
+        32% {content: '". $suhu_sekarang."';}
+        33% {content: '". $suhu_sekarang."'; }
+        62% {content: '". $suhu_sekarang."'; }
+        63% {content: '". $suhu_sekarang."'; }
+        99% {content: '". $suhu_sekarang."'; }
     }
 
     .degrees span{
@@ -192,19 +206,19 @@ $this->registerCss("
     }
 
     @keyframes placeTextAnimation {
-        32% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."';}
-        33% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        62% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        63% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        99% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
+        32% { content: '". $wilayah."';}
+        33% { content: '". $wilayah."'; }
+        62% { content: '". $wilayah."'; }
+        63% { content: '". $wilayah."'; }
+        99% { content: '". $wilayah."'; }
     }
 
     @-webkit-keyframes placeTextAnimation {
-        32% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."';}
-        33% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        62% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        63% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
-        99% { content: '". $cuaca['prakiraan_cuaca_besok_wilayah']['wilayah']."'; }
+        32% { content: '".$wilayah."';}
+        33% { content: '".$wilayah."'; }
+        62% { content: '".$wilayah."'; }
+        63% { content: '".$wilayah."'; }
+        99% { content: '".$wilayah."'; }
     }
 
     .weather{
@@ -218,19 +232,19 @@ $this->registerCss("
     }
 
     @keyframes weatherTextAnimation {
-        32% { content: 'Malam : ". $cuaca['prakiraan_cuaca_besok_wilayah']['malam']."';}
-        33% { content: 'Siang :". $cuaca['prakiraan_cuaca_besok_wilayah']['siang']."'; }
-        62% { content: 'Siang :". $cuaca['prakiraan_cuaca_besok_wilayah']['siang']."'; }
-        63% { content: 'Pagi :".$cuaca['prakiraan_cuaca_besok_wilayah']['pagi']."'; }
-        99% { content: 'Pagi :".$cuaca['prakiraan_cuaca_besok_wilayah']['pagi']."'; }
+        32% { content: 'Malam : ". $malam."';}
+        33% { content: 'Siang :". $siang."'; }
+        62% { content: 'Siang :".$siang."'; }
+        63% { content: 'Pagi :".$pagi."'; }
+        99% { content: 'Pagi :".$pagi."'; }
     }
 
     @-webkit-keyframes weatherTextAnimation {
-        32% { content: 'Malam : ". $cuaca['prakiraan_cuaca_besok_wilayah']['malam']."';}
-        33% { content: 'Siang :". $cuaca['prakiraan_cuaca_besok_wilayah']['siang']."'; }
-        62% { content: 'Siang :". $cuaca['prakiraan_cuaca_besok_wilayah']['siang']."'; }
-        63% { content: 'Pagi :".$cuaca['prakiraan_cuaca_besok_wilayah']['pagi']."'; }
-        99% { content: 'Pagi :".$cuaca['prakiraan_cuaca_besok_wilayah']['pagi']."'; }
+        32% { content: 'Malam : ". $malam."';}
+        33% { content: 'Siang :". $siang."'; }
+        62% { content: 'Siang :". $siang."'; }
+        63% { content: 'Pagi :".$pagi."'; }
+        99% { content: 'Pagi :".$pagi."'; }
     }
 
     .circle_container{
@@ -779,17 +793,24 @@ $this->registerCss("
                                                 $gempa=$session['gempa'];
                                                 //print_r($gempa );
                                                 if(isset($session['gempa'])){
-                                                //if($gempa['gempabumi_terkini_wilayah']!=null){
-                                                    echo '<div class="callout callout-danger">
-                                                            <h4>Warning!</h4>
-                                                            <p>Jarak Gempa dari ibukota : '.$gempa['gempabumi_terkini_wilayah']['jarak_ibukota_dengan_pusat_gempa'].'km <br>
-                                                            Waktu Gempa  : '.$gempa['gempabumi_terkini_wilayah']['result']['waktu_gempa'].'<br>
-                                                            Lintang     : '.$gempa['gempabumi_terkini_wilayah']['result']['lintang'].'<br>
-                                                            Bujur       : '.$gempa['gempabumi_terkini_wilayah']['result']['bujur'].'<br>
-                                                            Magnitudo   : '.$gempa['gempabumi_terkini_wilayah']['result']['magnitudo'].'<br>
-                                                            Kedalaman   : '.$gempa['gempabumi_terkini_wilayah']['result']['kedalaman'].'<br>
-                                                            Wilayah     :'.$gempa['gempabumi_terkini_wilayah']['result']['wilayah'].'<br>
-                                                          </p></div>';
+                                                    if($gempa['gempabumi_terkini_wilayah']!=[]){
+                                                        echo '<div class="callout callout-danger">
+                                                                <h4>Warning!</h4>
+                                                                <p>Jarak Gempa dari ibukota : '.$gempa['gempabumi_terkini_wilayah']['jarak_ibukota_dengan_pusat_gempa'].'km <br>
+                                                                Waktu Gempa  : '.$gempa['gempabumi_terkini_wilayah']['result']['waktu_gempa'].'<br>
+                                                                Lintang     : '.$gempa['gempabumi_terkini_wilayah']['result']['lintang'].'<br>
+                                                                Bujur       : '.$gempa['gempabumi_terkini_wilayah']['result']['bujur'].'<br>
+                                                                Magnitudo   : '.$gempa['gempabumi_terkini_wilayah']['result']['magnitudo'].'<br>
+                                                                Kedalaman   : '.$gempa['gempabumi_terkini_wilayah']['result']['kedalaman'].'<br>
+                                                                Wilayah     :'.$gempa['gempabumi_terkini_wilayah']['result']['wilayah'].'<br>
+                                                              </p></div>';
+
+                                                     }
+                                                     else{
+                                                        echo '<div class="callout callout-info">
+                                                            <h4>Semoga Aman!</h4>
+                                                            <p> Tidak terjadi gempa terkini</p></div>';
+                                                     }
                                                 }
                                                 else {
                                                     echo '<div class="callout callout-info">
